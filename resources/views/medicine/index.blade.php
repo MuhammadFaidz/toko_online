@@ -29,7 +29,7 @@
                 @else
                     @foreach ($medicines as $index => $item)
                         <tr>
-                            <td>{{ ($medicines->currentPage()-1) * ($medicines->perPage()) + ($index+1) }}</td>
+                            <td>{{ ($index+1) }}</td>
                             <td>{{ $item['name'] }}</td>
                             <td>{{ $item['type'] }}</td>
                             <td>Rp. {{  number_format($item['price'], 0, ',', '.') }}</td>
