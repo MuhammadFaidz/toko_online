@@ -10,7 +10,7 @@ class MedicineController extends Controller
     public function index(Request $request)
     {
         $medicines = Medicine::all();
-        return view('medicine.index', compact('medicines'));
+        return view('medicines.index', compact('medicines'));
     }
 
     /**
@@ -30,7 +30,7 @@ class MedicineController extends Controller
             'name' => 'required|max:100',
             'type' => 'required|min:3',
             'price' => 'required|numeric',
-            'stock' => 'required|numeric'
+            'stok' => 'required|numeric'
         ], [
             'name.required' => 'Nama obat harus diisi!',
             'type.required' => 'Tipe obat harus diisi!',

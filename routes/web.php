@@ -23,6 +23,6 @@ Route::prefix('/medicines')->name('medicines.')->group(function(){
     Route::get('/', [MedicineController::class, 'index'])->name('index');
     // {id} : path dinamis berisi data id, path dinamis untuk mencari spesifikasi data berdasarkan field tertentu
     Route::delete('/delete/{id}', [MedicineController::class, 'destroy'])->name('delete');
-    Route::get('/edit/{id}', [MedicineController::class, 'edit'])->name('edit');
+    Route::get('/edit', [MedicineController::class, 'edit'])->name('edit');
     Route::patch('/edit/{id}', [MedicineController::class, 'update'])->name('update');
 });

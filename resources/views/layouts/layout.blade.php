@@ -24,7 +24,7 @@
                       Obat
                     </a>
                     <ul class="dropdown-menu">
-                      <li><a class="dropdown-item" href="{{ route('medicines.index') }}">Data Obat</a></li>
+                      <li><a class="dropdown-item" href="{{ route('medicine.index') }}">Data Obat</a></li>
                       <li><a class="dropdown-item" href="{{route('medicines.create')}}">Tambah</a></li>
                     </ul>
                   </li>

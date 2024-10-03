@@ -10,7 +10,6 @@ class Medicine extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name',
         'type',
         'price',
         'stock'
