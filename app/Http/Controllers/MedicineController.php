@@ -9,8 +9,11 @@ class MedicineController extends Controller
 {
     public function index(Request $request)
     {
-        $medicines = Medicine::all();
-        return view('medicines.index', compact('medicines'));
+        // $medicines = Medicine::simplePaginate(10);
+        //simplepaginate : membuat pagination, 10:data yang muncul
+        $medicines = Medicine::where('name', 'LIKE', '%'.
+        $request->search_medicine.'%')->orderBy('name','ASC')->simplePaginate(10);
+        return view('medicine.index', compact('medicines'));
     }
 
     /**
@@ -30,16 +33,16 @@ class MedicineController extends Controller
             'name' => 'required|max:100',
             'type' => 'required|min:3',
             'price' => 'required|numeric',
-            'stok' => 'required|numeric'
+            'stock' => 'required|numeric'
         ], [
-            'name.required' => 'Nama obat harus diisi!',
-            'type.required' => 'Tipe obat harus diisi!',
-            'price.required' => 'Harga obat harus diisi!',
-            'stock.required' => 'Stok obat harus diisi!',
-            'name.max' => 'Nama obat maksimal 100 karakter!',
-            'type.min' => 'Tipe obat minimal 3 karakter!',
-            'price.numeric' => 'Harga obat harus berupa angka!',
-            'stock.numeric' => 'Stok obat harus berupa angka!',
+            'name.required' => 'Nama Barang harus diisi!',
+            'type.required' => 'Jenis Barang harus diisi!',
+            'price.required' => 'Harga harus diisi!',
+            'stock.required' => 'Stok Barang harus diisi!',
+            'name.max' => 'Nama Barang maksimal 100 karakter!',
+            'type.min' => 'Jenis Barang minimal 3 karakter!',
+            'price.numeric' => 'Harga harus berupa angka!',
+            'stock.numeric' => 'Stok Barang harus berupa angka!',
         ]);
 
         $proses = Medicine::create([
@@ -50,9 +53,9 @@ class MedicineController extends Controller
         ]);
 
         if ($proses) {
-            return redirect()->route('medicines.index')->with('success', 'Berhasil mengubah data obat!');
+            return redirect()->route('medicines.index')->with('success', 'Berhasil mengubah data Barang!');
         } else {
-            return redirect()->back()->with('failed', 'Gagal mengubah data obat!');
+            return redirect()->back()->with('failed', 'Gagal mengubah data Barang!');
         }
     }
 
@@ -87,12 +90,12 @@ class MedicineController extends Controller
             'type' => 'required|min:3',
             'price' => 'required|numeric',
         ], [
-            'name.required' => 'Nama obat harus diisi!',
-            'type.required' => 'Tipe obat harus diisi!',
-            'price.required' => 'Harga obat harus diisi!',
-            'name.max' => 'Nama obat maksimal 100 karakter!',
-            'type.min' => 'Tipe obat minimal 3 karakter!',
-            'price.numeric' => 'Harga obat harus berupa angka!',
+            'name.required' => 'Nama Barang harus diisi!',
+            'type.required' => 'Jenis Barang harus diisi!',
+            'price.required' => 'Harga harus diisi!',
+            'name.max' => 'Nama Barang maksimal 100 karakter!',
+            'type.min' => 'Jenis Barang minimal 3 karakter!',
+            'price.numeric' => 'Harga harus berupa angka!',
         ]);
         
         $proses = Medicine::where('id', $id)->update([
@@ -102,10 +105,36 @@ class MedicineController extends Controller
         ]);
 
         if ($proses) {
-            return redirect()->route('medicines.index')->with('success', 'Berhasil mengubah data obat!');
+            return redirect()->route('medicines.index')->with('success', 'Berhasil mengubah data Barang!');
         } else {
-            return redirect()->back()->with('failed', 'Gagal mengubah data obat!');
+            return redirect()->back()->with('failed', 'Gagal mengubah data Barang!');
         }
+    }
+
+    public function updateStock(Request $request,$id) {
+
+        $medicineBefore = Medicine::where('id',$id)->first();
+
+        if (!isset($request->stock)) {
+            return redirect()->back()->with([
+                'failed' => 'pastikan stok diiisi',
+                'id' => $id,
+                'name' => $medicineBefore['name'],
+                'stock' => $medicineBefore['stock'],
+            ]);
+        }
+
+        if ((int)$request->stock < (int)$medicineBefore['stock']) {
+            return redirect()->back()->with([
+                'failed' => 'stok baru tidak boleh kurang dari stok sebelumnya!',
+                'id' => $id,
+                'name' => $medicineBefore['name'],
+                'stock' => $medicineBefore['stock'],
+            ]);
+        }
+
+        $medicineBefore->update(['stock' => $request->stock]);
+        return redirect()->back()->with('success', 'Berhasil mengubah data stok!');
     }
 
     /**
@@ -117,9 +146,9 @@ class MedicineController extends Controller
         $proses = Medicine::where('id', $id)->delete();
 
         if ($proses) {
-            return redirect()->back()->with('success', 'Berhasil menghapus data obat!');
+            return redirect()->back()->with('success', 'Berhasil menghapus data Barang!');
         } else {
-            return redirect()->back()->with('failed', 'Gagal menghapus data obat!');
+            return redirect()->back()->with('failed', 'Gagal menghapus data Barang!');
         }
     }
 }

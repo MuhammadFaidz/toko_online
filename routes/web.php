@@ -4,6 +4,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Controllers\MedicineController;
 use Illuminate\Support\Facades\Route;
 
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -14,8 +15,12 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+Route::get('/l', function () {
+    return view('login');
+})->name('login');
 
 Route::get('/', [Controller::class, 'landing'])->name('home');
+    
 
 Route::prefix('/medicines')->name('medicines.')->group(function(){
     Route::get('/add', [MedicineController::class, 'create'])->name('create');
@@ -23,6 +28,7 @@ Route::prefix('/medicines')->name('medicines.')->group(function(){
     Route::get('/', [MedicineController::class, 'index'])->name('index');
     // {id} : path dinamis berisi data id, path dinamis untuk mencari spesifikasi data berdasarkan field tertentu
     Route::delete('/delete/{id}', [MedicineController::class, 'destroy'])->name('delete');
-    Route::get('/edit', [MedicineController::class, 'edit'])->name('edit');
+    Route::get('/edit/{id}', [MedicineController::class, 'edit'])->name('edit');
     Route::patch('/edit/{id}', [MedicineController::class, 'update'])->name('update');
+    Route::patch('/edit/stock/{id}', [MedicineController::class, 'updateStock'])->name('update.stock');
 });

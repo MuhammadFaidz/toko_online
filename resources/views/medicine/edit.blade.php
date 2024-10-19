@@ -1,7 +1,7 @@
 @extends('layouts.layout')
 
 @section('content')
-{{-- action ke patch, mengirim {id} --}}
+    {{-- action ke patch, mengirim {id} --}}
     <form action="{{ route('medicines.update', $medicine['id']) }}" method="POST">
         @csrf
         @method('PATCH')
@@ -9,7 +9,7 @@
             <div class="alert alert-danger">{{ Session::get('failed') }}</div>
         @endif
         <div class="form-group">
-            <label for="name" class="form-label">Nama Obat : </label>
+            <label for="name" class="form-label">Nama Barang : </label>
             {{-- value menampilkan isi di input, isi di input sesuai dengan data yg diambil di controller $medicine --}}
             <input type="text" name="name" id="name" value="{{ $medicine['name'] }}" class="form-control">
             {{-- jika ada error yg berhubungan dengan field name, munculkan teks error disini --}}
@@ -18,12 +18,12 @@
             @enderror
         </div>
         <div class="form-group">
-            <label for="type" class="form-label">Tipe Obat :</label>
+            <label for="type" class="form-label">Jenis :</label>
             <select name="type" id="type" class="form-select">
                 {{-- jika $medicine['type'] merupakan tablet ? tambah selected (opsi akan terpilih), jika tidak : tidak ditambahkan apapun --}}
-                <option value="tablet" {{ $medicine['type'] == 'tablet' ? 'selected' : '' }}>Tablet</option>
-                <option value="sirup" {{ $medicine['type'] == 'sirup' ? 'selected' : '' }}>Sirup</option>
-                <option value="kapsul" {{ $medicine['type'] == 'kapsul' ? 'selected' : '' }}>Kapsul</option>
+                <option value="tablet" {{ $medicine['type'] == 'tablet' ? 'selected' : '' }}>Fashion</option>
+                <option value="sirup" {{ $medicine['type'] == 'sirup' ? 'selected' : '' }}>Elektronik</option>
+                <option value="kapsul" {{ $medicine['type'] == 'kapsul' ? 'selected' : '' }}>Rumah Tangga</option>
             </select>
             @error('type')
                 <small class="text-danger">{{ $message }}</small>
